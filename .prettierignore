@@ -1,0 +1,5 @@
+build
+node_modules
+.react-router
+extensions/*/dist
+prisma/dev.sqlite

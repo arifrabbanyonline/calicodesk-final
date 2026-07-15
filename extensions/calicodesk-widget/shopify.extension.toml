@@ -1,0 +1,6 @@
+# Theme app extension for the CalicoDesk live chat widget.
+# The app embed block in blocks/calicodesk.liquid injects the CalicoDesk
+# livechat loader into the storefront.
+name = "calicodesk-widget"
+type = "theme"
+uid = "f020d74a-7679-e431-f09b-8de4a715f9c851c54e00"

@@ -1,0 +1,42 @@
+{%- comment -%}
+  CalicoDesk live chat — app embed block.
+
+  The subdomain is read from the app-owned metafield that the CalicoDesk app
+  writes when a merchant enables a workspace:
+      app.metafields.calicodesk.subdomain
+
+  A merchant can override it with the optional block setting below (useful for
+  testing or if they prefer to set it manually). The value is normalised so that
+  a full URL or "sub.calicodesk.com" both resolve to just the subdomain.
+{%- endcomment -%}
+
+{%- assign cd_meta = app.metafields.calicodesk.subdomain -%}
+{%- assign cd_subdomain = block.settings.subdomain_override | default: cd_meta.value -%}
+{%- assign cd_subdomain = cd_subdomain | strip | split: '//' | last | split: '.' | first -%}
+
+{%- if cd_subdomain != blank -%}
+  <script
+    src="https://{{ cd_subdomain }}.calicodesk.com/livechat-loader.js"
+    data-calicodesk-workspace="{{ cd_subdomain }}"
+    async
+  ></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "CalicoDesk Live Chat",
+  "target": "body",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Loads the CalicoDesk live chat widget on your storefront. The workspace is set automatically from the CalicoDesk app (Apps → CalicoDesk → Workspaces). Enable this embed and save to show the widget."
+    },
+    {
+      "type": "text",
+      "id": "subdomain_override",
+      "label": "Workspace subdomain override",
+      "info": "Optional. Leave blank to use the workspace enabled in the CalicoDesk app. Enter just the subdomain, for example \"acme\" for acme.calicodesk.com."
+    }
+  ]
+}
+{% endschema %}
