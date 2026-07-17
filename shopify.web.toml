@@ -3,5 +3,6 @@ roles = ["frontend", "backend"]
 webhooks_path = "/webhooks/app/uninstalled"
 
 [commands]
+# Requires DATABASE_URL in .env (SQLite: file:dev.sqlite). See .env.example.
 predev = "npm exec prisma generate"
 dev = "npm exec prisma migrate deploy && npm exec react-router dev"

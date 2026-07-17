@@ -108,17 +108,39 @@ prisma/schema.prisma             # Session + CalicoDeskConnection
 shopify.app.toml                 # App config, scopes (none), webhooks
 ```
 
-## Deployment
+## Deployment (Render)
 
-The template stores sessions in SQLite via Prisma, which is fine for a single
-instance. For production behind multiple instances, switch the Prisma
-`datasource` to Postgres/MySQL and set `NODE_ENV=production`. See Shopify's
-[deployment docs](https://shopify.dev/docs/apps/launch/deployment) (Fly.io,
-Render, Google Cloud Run are all documented for this template).
+This app is the **Shopify React Router (Vite)** template — not Remix.
+
+### Local development
+
+```bash
+cp .env.example .env          # DATABASE_URL="file:dev.sqlite"
+npx prisma migrate deploy
+npm run dev
+```
+
+No Docker/Postgres required locally (SQLite file in `prisma/`).
+
+### Render (Docker)
+
+1. Create a **Web Service** with **Docker** runtime (or use `render.yaml`).
+2. Set env vars: `SHOPIFY_API_KEY`, `SHOPIFY_API_SECRET`, `SCOPES`,
+   `SHOPIFY_APP_URL` (your `https://…onrender.com` URL), `NODE_ENV=production`,
+   and `DATABASE_URL=file:dev.sqlite` (or a Postgres URL — see below).
+   Render injects `PORT` automatically; `@react-router/serve` reads it.
+3. Update `shopify.app.toml` `application_url` + `[auth].redirect_urls`, then:
 
 ```bash
 npm run deploy   # pushes app config + the theme extension to Shopify
 ```
+
+**Note:** SQLite on Render is wiped when the instance restarts/redeploys. For
+durable sessions, switch Prisma `provider` to `postgresql`, point
+`DATABASE_URL` at a Render Postgres database, and regenerate migrations.
+
+See Shopify's [deployment docs](https://shopify.dev/docs/apps/launch/deployment)
+and [Render's Shopify guide](https://render.com/docs/deploy-shopify-app).
 
 ## Shopify App Store submission checklist
 

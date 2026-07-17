@@ -1,0 +1,27 @@
+# Local PostgreSQL for Shopify app development (matches .env.example DATABASE_URL).
+# Usage:
+#   docker compose up -d
+#   cp .env.example .env   # if you do not already have .env
+#   npx prisma migrate deploy
+#   npm run dev
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: calicodesk
+      POSTGRES_PASSWORD: calicodesk
+      POSTGRES_DB: calicodesk
+    ports:
+      - "5432:5432"
+    volumes:
+      - calicodesk_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U calicodesk -d calicodesk"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  calicodesk_pgdata:

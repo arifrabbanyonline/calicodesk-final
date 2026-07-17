@@ -10,7 +10,12 @@ name = "CalicoDesk"
 scopes = "read_products"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+# Replace example.com with your Render URL after deploy (see README).
+redirect_urls = [
+  "https://example.com/auth/callback",
+  "https://example.com/auth/shopify/callback",
+  "https://example.com/api/auth/callback"
+]
 
 [webhooks]
 api_version = "2026-10"

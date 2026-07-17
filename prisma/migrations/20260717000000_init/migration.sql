@@ -27,6 +27,7 @@ CREATE TABLE "CalicoDeskConnection" (
     "workspaces" TEXT NOT NULL DEFAULT '[]',
     "activeWorkspaceId" TEXT,
     "activeSubdomain" TEXT,
+    "shopifySyncedAt" DATETIME,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
 );
