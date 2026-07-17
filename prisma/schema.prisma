@@ -2,7 +2,9 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  // Alpine (Render Docker) uses musl + OpenSSL 3.
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 // Local + single-instance deploy: SQLite via DATABASE_URL (see .env.example).

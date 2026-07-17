@@ -1,8 +1,4 @@
 # Render Blueprint — https://render.com/docs/blueprint-spec
-# Default app uses SQLite inside the container (fine for single-instance / demos).
-# For durable production data, add a Postgres DB and switch Prisma to postgresql
-# (see README), then uncomment the DATABASE_URL fromDatabase block below.
-
 services:
   - type: web
     name: calicodesk-shopify
@@ -12,6 +8,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: HOST
+        value: 0.0.0.0
       - key: DATABASE_URL
         value: file:/app/prisma/dev.sqlite
       - key: SHOPIFY_API_KEY
@@ -22,14 +20,3 @@ services:
         value: read_products
       - key: SHOPIFY_APP_URL
         sync: false
-      # Uncomment when using Render Postgres + postgresql provider:
-      # - key: DATABASE_URL
-      #   fromDatabase:
-      #     name: calicodesk-db
-      #     property: connectionString
-
-# databases:
-#   - name: calicodesk-db
-#     plan: free
-#     databaseName: calicodesk
-#     user: calicodesk
